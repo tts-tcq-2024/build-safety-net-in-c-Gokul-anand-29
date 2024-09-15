@@ -6,20 +6,15 @@
 #include <string.h>
 
 char getSoundexCode(char c) {
-    static const char soundexMap[256] = {
-        ['A'] = '0', ['E'] = '0', ['I'] = '0', ['O'] = '0', ['U'] = '0',
-        ['H'] = '0', ['W'] = '0', ['Y'] = '0',
-        ['B'] = '1', ['F'] = '1', ['P'] = '1', ['V'] = '1',
-        ['C'] = '2', ['G'] = '2', ['J'] = '2', ['K'] = '2', ['Q'] = '2',
-        ['S'] = '2', ['X'] = '2', ['Z'] = '2',
-        ['D'] = '3', ['T'] = '3',
-        ['L'] = '4',
-        ['M'] = '5', ['N'] = '5',
-        ['R'] = '6'
+  c = toupper(c);
+    static const char lookupTable[26] = {
+        '0', '1', '2', '3', '0', '1', '2', '0', // A, B, C, D, E, F, G, H
+        '0', '2', '2', '4', '5', '5', '0', '1', // I, J, K, L, M, N, O, P
+        '2', '6', '2', '3', '0', '1', '0', '2', // Q, R, S, T, U, V, W, X
+        '0', '2'                                // Y, Z
     };
 
-    c = toupper(c);
-    return soundexMap[(unsigned char)c];
+    return lookupTable[c-65]; 
 }
 
 void generateSoundex(const char *name, char *soundex) {
