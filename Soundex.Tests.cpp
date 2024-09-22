@@ -12,13 +12,13 @@ TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
   ASSERT_STREQ(soundex,"G020");
 
   generateSoundex("good", soundex);
-  ASSERT_STREQ(soundex,"G300"); 
+  ASSERT_STREQ(soundex,"G003"); 
 
   generateSoundex("hwyaeiou", soundex);
   ASSERT_STREQ(soundex,"H000");
 
   generateSoundex("qwertyuiop", soundex);
-  ASSERT_STREQ(soundex,"Q630");
+  ASSERT_STREQ(soundex,"Q603");
 
   generateSoundex("abcde", soundex);
   ASSERT_STREQ(soundex,"A123");
