@@ -1,39 +1,54 @@
-#ifndef SOUNDEX_H
-#define SOUNDEX_H
-
-#include "Soundex.h"
 #include <ctype.h>
-#include <string.h>
-
+#include<string.h>
+ 
+typedef struct {
+    char sound;
+    char value;
+} SoundexMapping;
+ 
+static const SoundexMapping soundexMappings[] = {
+    {'B', '1'}, {'F', '1'}, {'P', '1'}, {'V', '1'},
+    {'C', '2'}, {'G', '2'}, {'J', '2'}, {'K', '2'}, {'Q', '2'},
+    {'S', '2'}, {'X', '2'}, {'Z', '2'},
+    {'D', '3'}, {'T', '3'},
+    {'L', '4'},
+    {'M', '5'}, {'N', '5'},
+    {'R', '6'}
+};
+ 
+#define MAPPING_COUNT (sizeof(soundexMappings) / sizeof(SoundexMapping))
+ 
 char getSoundexCode(char c) {
-  c = toupper(c);
-    static const char lookupTable[26] = {
-        '0', '1', '2', '3', '0', '1', '2', '0', // A, B, C, D, E, F, G, H
-        '0', '2', '2', '4', '5', '5', '0', '1', // I, J, K, L, M, N, O, P
-        '2', '6', '2', '3', '0', '1', '0', '2', // Q, R, S, T, U, V, W, X
-        '0', '2'                                // Y, Z
-    };
-
-    return lookupTable[c-65]; 
-}
-
-void generateSoundex(const char *name, char *soundex) {
-    int len = strlen(name);
-    soundex[0] = toupper(name[0]);
-    int sIndex = 1;
-
-    for (int i = 1; i < len && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != soundex[sIndex - 1]) {
-            soundex[sIndex++] = code;
+    c = toupper(c);
+ 
+    for (int i = 0; i < MAPPING_COUNT; i++) {
+        if (soundexMappings[i].sound == c) {
+            return soundexMappings[i].value;
         }
     }
-
-    while (sIndex < 4) {
-        soundex[sIndex++] = '0';
-    }
-
-    soundex[4] = '\0';
+ 
+        return '0'; 
 }
-
-#endif // SOUNDEX_H
+ 
+char getValidCode(char currentCode, char lastCode) {
+    if (currentCode != '0' && currentCode != lastCode) {
+        return currentCode;
+    }
+    return '0';
+}
+ 
+void generateSoundex(const char *name, char *soundex) {
+    soundex[0] = toupper(name[0]);
+    soundex[1] = soundex[2] = soundex[3] = '0'; 
+    soundex[4] = '\0'; 
+    char lastCode = '0';
+    int soundexIndex = 1;
+    for (int i = 1; name[i] != '\0' ; ++i) {
+       if (soundexIndex < 4) {  
+char currentCode = getSoundexCode(name[i]);
+        char validCode = getValidCode(currentCode, lastCode);
+            soundex[soundexIndex++] = validCode;
+            lastCode = validCode;
+        }
+    }
+}
