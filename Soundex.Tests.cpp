@@ -18,7 +18,7 @@ TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
   ASSERT_STREQ(soundex,"H000");
 
   generateSoundex("qwertyuiop", soundex);
-  ASSERT_STREQ(soundex,"Q630");
+  ASSERT_STREQ(soundex,"Q631");
 
   generateSoundex("abcde", soundex);
   ASSERT_STREQ(soundex,"A123");
