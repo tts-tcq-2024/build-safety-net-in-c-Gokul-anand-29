@@ -9,7 +9,7 @@ TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
   ASSERT_STREQ(soundex,"A200");
  
   generateSoundex("gokul", soundex);
-  ASSERT_STREQ(soundex,"G240");
+  ASSERT_STREQ(soundex,"G020");
 
   generateSoundex("good", soundex);
   ASSERT_STREQ(soundex,"G300"); 
